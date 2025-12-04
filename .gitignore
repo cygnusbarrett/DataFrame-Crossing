@@ -1,0 +1,16 @@
+# Ignorar datos 
+data/
+*.csv
+*.parquet
+*.xlsx
+
+# Ignorar entorno virtual de uv
+.venv/
+
+# Ignorar archivos temporales de Python y Jupyter
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+
+# Ignorar logs
+*.log
