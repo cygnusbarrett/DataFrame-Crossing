@@ -1,16 +1,18 @@
-# Ignorar datos 
-data/
-*.csv
-*.parquet
-*.xlsx
+# --- DATOS ---
+data/*
+!data/inputs/
+!data/outputs/
 
-# Ignorar entorno virtual de uv
+data/inputs/*
+!data/inputs/.gitkeep
+data/outputs/*
+!data/outputs/.gitkeep
+
+# --- SISTEMA Y ENTORNOS ---
 .venv/
-
-# Ignorar archivos temporales de Python y Jupyter
 __pycache__/
 *.pyc
 .ipynb_checkpoints/
 
-# Ignorar logs
-*.log
+# --- JUPYTER ---
+*-checkpoint.ipynb
