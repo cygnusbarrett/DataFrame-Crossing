@@ -326,89 +326,113 @@ def write_outputs(result: DatasetCharacterization, out_dir: Path) -> dict[str, P
 
 
 def render_markdown_report(result: DatasetCharacterization) -> str:
+    """Informe pedagógico, eficiente y sintético (1 página + detalle mínimo)."""
     lines: list[str] = []
-    lines.append("# Caracterización preliminar — Consejos de Guerra")
-    lines.append("")
-    lines.append(f"**Raíz:** `{result.root}`")
+    lines.append("# Consejos de Guerra — caracterización sintética")
     lines.append("")
     lines.append(
-        f"Archivos: **{result.total_files}** · Carpetas: **{result.total_dirs}** · "
-        f"Causas únicas (por código xx-yy en nombres): **{result.total_causas_unicas}**"
+        "Lectura en 60 segundos: qué hay, cómo está ordenado, cuántas causas por año, "
+        "dónde se solapan los fondos, y qué hacer con FASIC."
     )
     lines.append("")
-    lines.append("## Causas judiciales por año")
+    lines.append(f"_Fuente:_ `{result.root}`")
+    lines.append("")
+
+    # --- Ficha ---
+    lines.append("## 1. Ficha")
+    lines.append("")
+    lines.append(
+        f"| Fondos | Archivos | Carpetas | Causas únicas (`xx-yy`) |\n"
+        f"| ---: | ---: | ---: | ---: |\n"
+        f"| {len(result.fondos)} | {result.total_files} | {result.total_dirs} | "
+        f"{result.total_causas_unicas} |"
+    )
+    lines.append("")
+    lines.append(
+        "> **Clave de lectura.** `15-75` = causa nº 15 del año **1975** "
+        "(`yy` = últimos dos dígitos del año)."
+    )
+    lines.append("")
+
+    # --- Por año ---
+    lines.append("## 2. Causas por año")
     lines.append("")
     if not result.causas_por_anio:
-        lines.append("_No se extrajeron códigos xx-yy desde nombres de archivo/carpeta._")
+        lines.append("Sin códigos `xx-yy` detectables en nombres.")
     else:
-        lines.append("| Año | N° causas (únicas) |")
-        lines.append("| ---: | ---: |")
-        for y, n in result.causas_por_anio.items():
-            lines.append(f"| {y} | {n} |")
+        years = list(result.causas_por_anio.items())
+        total = sum(int(n) for _, n in years)
+        lines.append("| Año | Causas | % |")
+        lines.append("| ---: | ---: | ---: |")
+        for y, n in years:
+            pct = 100.0 * int(n) / total if total else 0
+            lines.append(f"| {y} | {n} | {pct:.0f}% |")
+        lines.append(f"| **Total** | **{total}** | |")
+        # pico
+        peak_y, peak_n = max(years, key=lambda t: int(t[1]))
+        lines.append("")
+        lines.append(f"Pico: **{peak_y}** ({peak_n} causas).")
     lines.append("")
-    lines.append("## Fondos")
+
+    # --- Fondos (una tarjeta corta c/u) ---
+    lines.append("## 3. Fondos (sistema de clasificación)")
+    lines.append("")
+    lines.append(
+        "Cada fondo es una **recolección** (investigador/institución). "
+        "La clasificación se infiere de nombres; el Word de inventario manda."
+    )
     lines.append("")
     for f in result.fondos:
-        lines.append(f"### {f.name}")
-        lines.append("")
-        lines.append(f"- Ruta relativa: `{f.path}`")
-        lines.append(f"- Archivos: {f.n_files} · dirs: {f.n_dirs} · causas únicas: {f.n_causas_unicas}")
-        if f.extensions:
-            top_ext = ", ".join(f"{k}={v}" for k, v in list(f.extensions.items())[:12])
-            lines.append(f"- Extensiones: {top_ext}")
-        if f.inventario_files:
-            lines.append("- Inventarios Word: " + ", ".join(f"`{x}`" for x in f.inventario_files))
-        lines.append("- Sistema de clasificación (heurística por nombres):")
-        for note in f.classification_notes:
-            lines.append(f"  - {note}")
-        if f.top_level_entries:
-            preview = ", ".join(f"`{x}`" for x in f.top_level_entries[:25])
-            more = "" if len(f.top_level_entries) <= 25 else f" … (+{len(f.top_level_entries) - 25})"
-            lines.append(f"- Entradas de primer nivel: {preview}{more}")
+        tip = f.classification_notes[0] if f.classification_notes else "sin patrón claro"
+        top_ext = ", ".join(f"{k}={v}" for k, v in list(f.extensions.items())[:5]) or "—"
+        inv = "sí" if f.inventario_files else "no"
+        lines.append(
+            f"**{f.name}** — {f.n_files} archivos · {f.n_causas_unicas} causas · "
+            f"inventario Word: {inv}  \n"
+            f"Clasificación: _{tip}_  \n"
+            f"Extensiones: {top_ext}"
+        )
         lines.append("")
 
-    lines.append("## Solapamiento de causas entre fondos")
+    # --- Solapes ---
+    lines.append("## 4. ¿Misma causa en dos fondos = mismo archivo?")
     lines.append("")
-    if not result.causas_multi_fondo:
+    n_multi = len(result.causas_multi_fondo)
+    if n_multi == 0:
         lines.append(
-            "No se detectaron códigos de causa compartidos entre fondos "
-            "(según nombres). Esto no descarta duplicados semánticos."
+            "No hay códigos compartidos entre fondos (por nombres). "
+            "Aun así pueden existir solapes semánticos no indexados igual."
         )
     else:
         lines.append(
-            f"Se encontraron **{len(result.causas_multi_fondo)}** códigos presentes en ≥2 fondos."
+            f"**{n_multi}** códigos aparecen en ≥2 fondos. "
+            "Tratarlos como *misma Causa, piezas posiblemente distintas* "
+            "(complementarias o copias). Comparar hashes / inventarios antes de fusionar."
         )
         lines.append("")
-        lines.append(
-            "Interpretación: coincidencia de código **no implica** archivo idéntico. "
-            "Dos investigadores pueden haber reunido piezas distintas (o parcialmente "
-            "solapadas) sobre la misma causa. Tratarlos como **candidatos a alineación** "
-            "en el grafo, no como deduplicación automática."
-        )
-        lines.append("")
-        for item in result.causas_multi_fondo[:50]:
-            lines.append(
-                f"- `{item['causa']}` → {', '.join(item['fondos'])} ({item['n_fondos']} fondos)"
-            )
-        if len(result.causas_multi_fondo) > 50:
-            lines.append(f"- … (+{len(result.causas_multi_fondo) - 50} más; ver JSON)")
+        # mostrar pocos ejemplos sintéticos
+        for item in result.causas_multi_fondo[:12]:
+            lines.append(f"- `{item['causa']}` → {', '.join(item['fondos'])}")
+        if n_multi > 12:
+            lines.append(f"- _… +{n_multi - 12} en el JSON_")
     lines.append("")
 
-    lines.append("## Fondo FASIC / OneDrive")
+    # --- FASIC ---
+    lines.append("## 5. FASIC / OneDrive")
     lines.append("")
     if result.fasic_split_detected:
         lines.append(
-            "**Posible descarga partida detectada.** Ejecutar "
-            "`python -m consejos_guerra.fasic.reorganize --apply` tras revisar el dry-run."
+            "Descarga partida detectada. Dry-run: "
+            "`cg-characterize fasic-reorganize` → revisar plan → `--apply`."
         )
     else:
-        lines.append("No se detectó un split obvio (o la carpeta OneDrive aún no está visible).")
-    for p in result.fasic_split_paths:
+        lines.append("Sin split obvio en esta pasada (o carpeta OneDrive ausente).")
+    for p in result.fasic_split_paths[:8]:
         lines.append(f"- `{p}`")
     lines.append("")
 
     if result.warnings:
-        lines.append("## Advertencias")
+        lines.append("## Avisos")
         lines.append("")
         for w in result.warnings:
             lines.append(f"- {w}")
@@ -416,8 +440,9 @@ def render_markdown_report(result: DatasetCharacterization) -> str:
 
     lines.append("---")
     lines.append(
-        "_Caracterización preliminar basada solo en nombres de rutas. "
-        "Los inventarios Word aportan la descripción canónica de cada fondo._"
+        "_Detalle crudo: `caracterizacion.json`. "
+        "Inventarios: carpeta `inventarios/`. "
+        "Este MD prioriza síntesis pedagógica sobre exhaustividad tabular._"
     )
     lines.append("")
     return "\n".join(lines)

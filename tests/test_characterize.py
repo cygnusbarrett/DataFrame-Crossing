@@ -41,7 +41,6 @@ def test_inventarios_fixture():
 
 
 def test_fasic_reorganize_dry_and_apply(tmp_path: Path):
-    # Copiar fixture a tmp para no mutar el original
     import shutil
 
     root = tmp_path / "data"
@@ -55,5 +54,25 @@ def test_fasic_reorganize_dry_and_apply(tmp_path: Path):
     assert applied["moved"] >= 1
     canonical = Path(plan.canonical_root)
     assert canonical.exists()
-    # Pieza solo en rama (1) debe existir tras fusión
     assert any(canonical.rglob("pieza.pdf"))
+
+
+def test_export_and_characterize_manifest(tmp_path: Path):
+    from consejos_guerra.characterize.export_manifest import export_for_remote_analysis
+    from consejos_guerra.characterize.from_manifest import characterize_from_manifest
+    from consejos_guerra.characterize.scan import write_outputs
+
+    out = tmp_path / "manifest"
+    meta = export_for_remote_analysis(FIXTURE, out)
+    assert meta["n_files"] >= 5
+    assert (out / "manifest.csv").is_file()
+    assert (out / "inventarios_word").is_dir()
+
+    result = characterize_from_manifest(out / "manifest.csv", out / "inventarios_word")
+    assert result.total_causas_unicas >= 4
+    assert "1975" in result.causas_por_anio
+    assert result.fasic_split_detected
+    paths = write_outputs(result, tmp_path / "report")
+    md = paths["md"].read_text(encoding="utf-8")
+    assert "caracterización sintética" in md
+    assert "Causas por año" in md

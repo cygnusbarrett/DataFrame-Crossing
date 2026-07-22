@@ -9,6 +9,9 @@ data/private/
 
 data/inputs/*
 !data/inputs/.gitkeep
+!data/inputs/manifest_consejos_guerra/
+!data/inputs/manifest_consejos_guerra/**
+
 data/outputs/*
 !data/outputs/.gitkeep
 

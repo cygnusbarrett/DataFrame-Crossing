@@ -37,7 +37,13 @@ cg-characterize status
 ## Comandos
 
 ```bash
-# Barrido por nombres de archivos/carpetas + stats de causas xx-yy por año
+# En la Mac: export liviano para el Cloud Agent
+cg-characterize export-manifest
+
+# En cloud / local: caracterizar desde el manifiesto
+cg-characterize characterize-manifest
+
+# Barrido directo (solo si el dataset está montado)
 cg-characterize characterize -o docs/caracterizacion/generado
 
 # Solo inventarios Word (*inventario*.doc/docx)
@@ -47,6 +53,8 @@ cg-characterize inventarios
 cg-characterize fasic-reorganize
 cg-characterize fasic-reorganize --apply
 ```
+
+Ver la guía corta: [`docs/QUE_CORRER.md`](docs/QUE_CORRER.md).
 
 ## Convenciones observadas (hipótesis de trabajo)
 
