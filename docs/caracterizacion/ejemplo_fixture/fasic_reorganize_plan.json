@@ -1,0 +1,45 @@
+{
+  "onedrive_root": "/workspace/tests/fixtures/consejos_guerra_mini/Fondos/OneDrive_2026-07-13",
+  "canonical_root": "/workspace/tests/fixtures/consejos_guerra_mini/Fondos/Fondo FASIC",
+  "branch_dirs": [
+    "/workspace/tests/fixtures/consejos_guerra_mini/Fondos/OneDrive_2026-07-13/FASIC",
+    "/workspace/tests/fixtures/consejos_guerra_mini/Fondos/OneDrive_2026-07-13/FASIC (1)"
+  ],
+  "notes": [
+    "OneDrive root: /workspace/tests/fixtures/consejos_guerra_mini/Fondos/OneDrive_2026-07-13",
+    "Ramas detectadas (2): FASIC, FASIC (1)",
+    "Destino canónico propuesto: /workspace/tests/fixtures/consejos_guerra_mini/Fondos/Fondo FASIC",
+    "Estrategia: la rama de mayor score aporta la base; el resto se fusiona por ruta relativa. Duplicados byte-idénticos se omiten; conflictos se reportan sin sobrescribir."
+  ],
+  "counts": {
+    "moves": 3,
+    "duplicates": 1,
+    "conflicts": 0
+  },
+  "actions": [
+    {
+      "action": "move",
+      "src": "/workspace/tests/fixtures/consejos_guerra_mini/Fondos/OneDrive_2026-07-13/FASIC",
+      "dest": "/workspace/tests/fixtures/consejos_guerra_mini/Fondos/Fondo FASIC",
+      "detail": "Promover rama principal a Fondo FASIC canónico"
+    },
+    {
+      "action": "move",
+      "src": "/workspace/tests/fixtures/consejos_guerra_mini/Fondos/OneDrive_2026-07-13/FASIC (1)/41-79/sub/pieza.pdf",
+      "dest": "/workspace/tests/fixtures/consejos_guerra_mini/Fondos/Fondo FASIC/41-79/sub/pieza.pdf",
+      "detail": "Fusionar desde rama 'FASIC (1)'"
+    },
+    {
+      "action": "skip_duplicate",
+      "src": "/workspace/tests/fixtures/consejos_guerra_mini/Fondos/OneDrive_2026-07-13/FASIC (1)/30-78/exp.pdf",
+      "dest": "/workspace/tests/fixtures/consejos_guerra_mini/Fondos/Fondo FASIC/30-78/exp.pdf",
+      "detail": "SHA-256 idéntico"
+    },
+    {
+      "action": "move",
+      "src": "/workspace/tests/fixtures/consejos_guerra_mini/Fondos/OneDrive_2026-07-13/readme_descarga.txt",
+      "dest": "/workspace/tests/fixtures/consejos_guerra_mini/Fondos/Fondo FASIC/readme_descarga.txt",
+      "detail": "Archivo suelto en raíz OneDrive → canónico"
+    }
+  ]
+}

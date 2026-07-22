@@ -1,18 +1,50 @@
-# --- DATOS ---
-data/*
+# --- DATOS PRIVADOS (nunca versionar fondos) ---
+data/external/
+data/raw/
+data/private/
 !data/inputs/
 !data/outputs/
+!data/inputs/.gitkeep
+!data/outputs/.gitkeep
 
 data/inputs/*
 !data/inputs/.gitkeep
+!data/inputs/manifest_consejos_guerra/
+!data/inputs/manifest_consejos_guerra/**
+
 data/outputs/*
 !data/outputs/.gitkeep
+
+# Inventarios/extraídos del dataset real pueden contener datos sensibles
+docs/caracterizacion/generado/
+!docs/caracterizacion/generado/.gitkeep
+# Bundle liviano para análisis remoto (~1 MB, sin PDFs)
+!data/inputs/corpus_bundle.zip
+!data/inputs/corpus_bundle/
+!data/inputs/corpus_bundle/**
 
 # --- SISTEMA Y ENTORNOS ---
 .venv/
 __pycache__/
 *.pyc
-.ipynb_checkpoints/
+*.pyo
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+dist/
+build/
+*.egg-info/
 
 # --- JUPYTER ---
+.ipynb_checkpoints/
 *-checkpoint.ipynb
+
+# --- OS ---
+.DS_Store
+Thumbs.db
+
+# --- SECRETOS / LOCAL ---
+.env
+.env.*
+!.env.example
+*.local.json
