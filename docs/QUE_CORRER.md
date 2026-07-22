@@ -1,50 +1,63 @@
-# Qué correr (para que el agente haga el análisis completo)
+# Qué correr — opción “aquí mismo” (Cloud Agent)
 
-Hace falta **una sola exportación liviana** en tu Mac. No subas PDFs ni el archivo entero.
+## Flujo corto
 
-## En tu Mac (una vez, o cuando crezca el dataset)
+### En tu Mac (generar el paquete)
 
 ```bash
-cd /ruta/al/repo   # DataFrame-Crossing / este proyecto
-git checkout cursor/grafo-multimodal-consejos-guerra-e698
-git pull
+cd /ruta/al/repo
+git checkout cursor/grafo-multimodal-consejos-guerra-e698 && git pull
 uv sync --extra dev
 
 export CONSEJOS_GUERRA_ROOT="/Users/camilogutierrez/STEM/nuestra-memoria/MuseoDeLaMemoria/2607 - Consejos de Guerra"
-
-# 1) Export liviano: árbol de nombres + Word *inventario* (sin PDFs)
 uv run cg-characterize export-manifest
 
-# 2) (Opcional, en la misma máquina) reorganizar FASIC de verdad
-uv run cg-characterize fasic-reorganize                 # dry-run
-uv run cg-characterize fasic-reorganize --apply         # si el plan está OK
-
-# 3) Subir el manifiesto al repo
 git add data/inputs/manifest_consejos_guerra
-git commit -m "Datos: manifiesto Consejos de Guerra para caracterización remota"
+git commit -m "Datos: manifiesto Consejos de Guerra"
 git push
 ```
 
-## Después: pedile al agente
+### Aquí (este agente)
 
-> Caracterizá el dataset desde `data/inputs/manifest_consejos_guerra`  
-> (informe pedagógico, eficiente y sintético + inventarios + solapes + FASIC).
-
-El agente correrá:
+Decime: **“git pull y corré `scripts/run_here.sh`”**  
+o ejecutalo vos en la terminal del agente:
 
 ```bash
-uv run cg-characterize characterize-manifest
+git pull
+chmod +x scripts/run_here.sh
+scripts/run_here.sh
 ```
 
-## Qué genera el export
+Salida: `docs/caracterizacion/generado/caracterizacion.md` (informe sintético).
 
-| Archivo | Para qué |
-| --- | --- |
-| `manifest.csv` | Todos los paths (stats `xx-yy`, fondos, extensiones) |
-| `tree.txt` | Vista legible del árbol |
-| `inventarios_word/` | Solo Word con “inventario” en el nombre |
-| `meta.json` | Conteos rápidos |
+---
 
-## Alternativa (si querés que el agente vea el disco completo)
+## Variante con zip (sin commit de datos)
 
-Abrí Cursor **en local / Remote-SSH** con esa carpeta montada y pedí el análisis directo. El cloud agent remoto **no** puede leer `/Users/camilogutierrez/...`.
+**Mac:**
+
+```bash
+uv run cg-characterize export-manifest
+(cd data/inputs && zip -r ../../manifest_consejos_guerra.zip manifest_consejos_guerra)
+```
+
+Subí `manifest_consejos_guerra.zip` a `/workspace/` y aquí:
+
+```bash
+scripts/run_here.sh --manifest-zip /workspace/manifest_consejos_guerra.zip
+```
+
+---
+
+## Dataset completo montado (si existe en esta máquina)
+
+```bash
+scripts/run_here.sh --data-root "$CONSEJOS_GUERRA_ROOT" --apply-fasic
+```
+
+---
+
+## FASIC en disco real
+
+La fusión de `OneDrive_2026-07-13` conviene en la Mac (`fasic-reorganize --apply`).  
+Con el manifiesto, aquí se detecta y documenta el split sin tocar tu disco privado.
