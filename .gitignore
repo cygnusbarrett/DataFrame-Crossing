@@ -18,7 +18,10 @@ data/outputs/*
 # Inventarios/extraídos del dataset real pueden contener datos sensibles
 docs/caracterizacion/generado/
 !docs/caracterizacion/generado/.gitkeep
-# ejemplo_fixture/ sí se versiona (salida sobre datos sintéticos)
+# Bundle liviano para análisis remoto (~1 MB, sin PDFs)
+!data/inputs/corpus_bundle.zip
+!data/inputs/corpus_bundle/
+!data/inputs/corpus_bundle/**
 
 # --- SISTEMA Y ENTORNOS ---
 .venv/
