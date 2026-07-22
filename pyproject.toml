@@ -1,7 +1,7 @@
 [project]
-name = "dataframe-crossing"
+name = "consejos-guerra-grafo-multimodal"
 version = "0.1.0"
-description = "Add your description here"
+description = "Investigación: caracterización de fondos y grafo multimodal sobre Consejos de Guerra (Museo de la Memoria / Nuestra Memoria)."
 readme = "README.md"
 requires-python = ">=3.10"
 dependencies = [
@@ -9,4 +9,35 @@ dependencies = [
     "jupyterlab>=4.5.0",
     "pandas>=2.3.3",
     "polars>=1.35.2",
+    "python-docx>=1.1.2",
+    "rich>=13.9.0",
+    "typer>=0.15.0",
 ]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0.0",
+]
+
+[project.scripts]
+cg-characterize = "consejos_guerra.cli:app"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/consejos_guerra"]
+
+[tool.hatch.build.targets.sdist]
+include = [
+  "src/consejos_guerra",
+  "tests",
+  "docs",
+  "scripts",
+  "README.md",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]

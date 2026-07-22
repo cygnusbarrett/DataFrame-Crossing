@@ -1,0 +1,29 @@
+[
+  {
+    "fondo_guess": "Fondo Alicia",
+    "source": "/workspace/tests/fixtures/consejos_guerra_mini/Fondos/Fondo Alicia/Inventario_Fondo_Alicia.docx",
+    "format": "docx",
+    "extracted_md": "docs/caracterizacion/generado/inventarios/inventario__Fondo_Alicia.md",
+    "error": null,
+    "n_paragraphs": 3,
+    "n_tables": 0
+  },
+  {
+    "fondo_guess": "Fondo Bernardo",
+    "source": "/workspace/tests/fixtures/consejos_guerra_mini/Fondos/Fondo Bernardo/Inventario_Fondo_Bernardo.docx",
+    "format": "docx",
+    "extracted_md": "docs/caracterizacion/generado/inventarios/inventario__Fondo_Bernardo.md",
+    "error": null,
+    "n_paragraphs": 3,
+    "n_tables": 0
+  },
+  {
+    "fondo_guess": "OneDrive_2026-07-13",
+    "source": "/workspace/tests/fixtures/consejos_guerra_mini/Fondos/OneDrive_2026-07-13/FASIC/Inventario_FASIC.docx",
+    "format": "docx",
+    "extracted_md": "docs/caracterizacion/generado/inventarios/inventario__OneDrive_2026-07-13.md",
+    "error": null,
+    "n_paragraphs": 2,
+    "n_tables": 0
+  }
+]

@@ -1,0 +1,152 @@
+{
+  "root": "/workspace/tests/fixtures/consejos_guerra_mini",
+  "total_files": 11,
+  "total_dirs": 11,
+  "total_causas_unicas": 5,
+  "causas_por_anio": {
+    "1974": 1,
+    "1975": 1,
+    "1976": 1,
+    "1978": 1,
+    "1979": 1
+  },
+  "causas_por_anio_por_fondo": {
+    "Fondo Alicia": {
+      "1975": 1,
+      "1976": 1
+    },
+    "Fondo Bernardo": {
+      "1974": 1,
+      "1975": 1
+    },
+    "OneDrive_2026-07-13": {
+      "1978": 1,
+      "1979": 1
+    }
+  },
+  "causas_multi_fondo": [
+    {
+      "causa": "15-75",
+      "fondos": [
+        "Fondo Alicia",
+        "Fondo Bernardo"
+      ],
+      "n_fondos": 2,
+      "interpretacion": "Misma causa indexada en más de un fondo. Puede ser copia redundante O material complementario (distinta selección documental / notas de investigador). Comparar hashes y lectura de inventarios antes de deduplicar."
+    }
+  ],
+  "fasic_split_detected": true,
+  "fasic_split_paths": [
+    "/workspace/tests/fixtures/consejos_guerra_mini/Fondos/OneDrive_2026-07-13",
+    "/workspace/tests/fixtures/consejos_guerra_mini/Fondos/OneDrive_2026-07-13/FASIC (1)",
+    "/workspace/tests/fixtures/consejos_guerra_mini/Fondos/OneDrive_2026-07-13/FASIC",
+    "/workspace/tests/fixtures/consejos_guerra_mini/Fondos/OneDrive_2026-07-13/readme_descarga.txt"
+  ],
+  "warnings": [],
+  "fondos": [
+    {
+      "name": "Fondo Alicia",
+      "path": "Fondos/Fondo Alicia",
+      "n_dirs": 2,
+      "n_files": 3,
+      "extensions": {
+        ".pdf": 2,
+        ".docx": 1
+      },
+      "top_level_entries": [
+        "15-75",
+        "22-76",
+        "Inventario_Fondo_Alicia.docx"
+      ],
+      "sample_paths": [
+        "Inventario_Fondo_Alicia.docx",
+        "22-76/pieza.pdf",
+        "15-75/sentencia.pdf"
+      ],
+      "causa_codes": [
+        "15-75",
+        "22-76"
+      ],
+      "n_causas_unicas": 2,
+      "classification_notes": [
+        "Indexación dominante por código de causa xx-yy (número correlativo + últimos dos dígitos del año).",
+        "Material digitalizado (imágenes/PDF) además de estructura de carpetas.",
+        "Vocabulario procesal-penal/militar (expediente, sentencia, consejo, fiscal)."
+      ],
+      "inventario_files": [
+        "Inventario_Fondo_Alicia.docx"
+      ]
+    },
+    {
+      "name": "Fondo Bernardo",
+      "path": "Fondos/Fondo Bernardo",
+      "n_dirs": 3,
+      "n_files": 3,
+      "extensions": {
+        ".pdf": 2,
+        ".docx": 1
+      },
+      "top_level_entries": [
+        "08-74",
+        "15-75",
+        "Inventario_Fondo_Bernardo.docx"
+      ],
+      "sample_paths": [
+        "Inventario_Fondo_Bernardo.docx",
+        "08-74/causa.pdf",
+        "15-75/tomo1/notas_investigador.pdf"
+      ],
+      "causa_codes": [
+        "15-75",
+        "8-74"
+      ],
+      "n_causas_unicas": 2,
+      "classification_notes": [
+        "Indexación dominante por código de causa xx-yy (número correlativo + últimos dos dígitos del año).",
+        "Presencia de unidades de conservación (caja/legajo/tomo/carpeta numerada).",
+        "Material digitalizado (imágenes/PDF) además de estructura de carpetas."
+      ],
+      "inventario_files": [
+        "Inventario_Fondo_Bernardo.docx"
+      ]
+    },
+    {
+      "name": "OneDrive_2026-07-13",
+      "path": "Fondos/OneDrive_2026-07-13",
+      "n_dirs": 6,
+      "n_files": 5,
+      "extensions": {
+        ".pdf": 3,
+        ".txt": 1,
+        ".docx": 1
+      },
+      "top_level_entries": [
+        "FASIC",
+        "FASIC (1)",
+        "readme_descarga.txt"
+      ],
+      "sample_paths": [
+        "readme_descarga.txt",
+        "FASIC (1)/41-79/sub/pieza.pdf",
+        "FASIC (1)/30-78/exp.pdf",
+        "FASIC/Inventario_FASIC.docx",
+        "FASIC/30-78/exp.pdf"
+      ],
+      "causa_codes": [
+        "30-78",
+        "41-79"
+      ],
+      "n_causas_unicas": 2,
+      "classification_notes": [
+        "Indexación dominante por código de causa xx-yy (número correlativo + últimos dos dígitos del año).",
+        "Material digitalizado (imágenes/PDF) además de estructura de carpetas.",
+        "Vocabulario procesal-penal/militar (expediente, sentencia, consejo, fiscal).",
+        "Referencias institucionales en nombres (posible sub-serie por productor).",
+        "Traza de descarga OneDrive: revisar fusión de ramas antes de usar como fuente canónica."
+      ],
+      "inventario_files": [
+        "FASIC/Inventario_FASIC.docx"
+      ]
+    }
+  ]
+}

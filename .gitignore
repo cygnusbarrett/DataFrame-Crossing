@@ -1,18 +1,44 @@
-# --- DATOS ---
-data/*
+# --- DATOS PRIVADOS (nunca versionar fondos) ---
+data/external/
+data/raw/
+data/private/
 !data/inputs/
 !data/outputs/
+!data/inputs/.gitkeep
+!data/outputs/.gitkeep
 
 data/inputs/*
 !data/inputs/.gitkeep
 data/outputs/*
 !data/outputs/.gitkeep
 
+# Inventarios/extraídos del dataset real pueden contener datos sensibles
+docs/caracterizacion/generado/
+!docs/caracterizacion/generado/.gitkeep
+# ejemplo_fixture/ sí se versiona (salida sobre datos sintéticos)
+
 # --- SISTEMA Y ENTORNOS ---
 .venv/
 __pycache__/
 *.pyc
-.ipynb_checkpoints/
+*.pyo
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+dist/
+build/
+*.egg-info/
 
 # --- JUPYTER ---
+.ipynb_checkpoints/
 *-checkpoint.ipynb
+
+# --- OS ---
+.DS_Store
+Thumbs.db
+
+# --- SECRETOS / LOCAL ---
+.env
+.env.*
+!.env.example
+*.local.json
